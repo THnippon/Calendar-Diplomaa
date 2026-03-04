@@ -1,0 +1,33 @@
+# ===== OS / temp =====
+.DS_Store
+Thumbs.db
+
+# ===== IDE =====
+.idea/
+*.iml
+.vscode/
+
+# ===== Java / Maven / Spring =====
+calendar-backend/target/
+*.log
+
+calendar-backend.zip
+# ===== Gradle (если вдруг) =====
+.gradle/
+**/build/
+
+# ===== Flutter / Dart =====
+calendar-client/.dart_tool/
+calendar-client/build/
+calendar-client/.flutter-plugins
+calendar-client/.flutter-plugins-dependencies
+calendar-client/.packages
+calendar-client.zip
+
+# ===== Env / secrets =====
+.env
+*.env
+application-local.properties
+application-local.yml
+
+Flutter file
