@@ -4,10 +4,12 @@ import com.example.calendarbackend.dto.CreateEventRequest;
 import com.example.calendarbackend.dto.CreateEventResponse;
 import com.example.calendarbackend.dto.EventResponse;
 import com.example.calendarbackend.entity.EventEntity;
+import com.example.calendarbackend.model.Event;
 import com.example.calendarbackend.service.EventService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -18,6 +20,20 @@ public class EventController {
     public EventController(EventService eventService)
     {
         this.eventService = eventService;
+    }
+
+    private EventResponse toResponse(EventEntity e)
+    {
+        return new EventResponse(
+                e.getId(),
+                e.getTitle(),
+                e.getDescription(),
+                e.getStartAt(),
+                e.getEndAt(),
+                e.getAddress(),
+                e.getCreatedBy(),
+                e.getScopeCode(),
+                e.getGroupId());
     }
 
     @PostMapping
@@ -36,6 +52,12 @@ public class EventController {
     public List<EventResponse> getAll()
     {
         return eventService.getAll().stream().map(e -> new EventResponse(e.getId(), e.getTitle(), e.getDescription(), e.getStartAt(), e.getEndAt(), e.getAddress(), e.getCreatedBy(), e.getScopeCode(), e.getGroupId())).toList();
+    }
+
+    @GetMapping
+    public List<EventResponse> getAllInRangeAndParticipant(@RequestParam OffsetDateTime from, @RequestParam OffsetDateTime to, @RequestParam Integer userId)
+    {
+        return eventService.getInRangeAndParticipant(from, to, userId).stream().map(this::toResponse).toList();
     }
 }
 

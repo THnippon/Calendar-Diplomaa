@@ -4,8 +4,11 @@ import com.example.calendarbackend.dto.CreateEventRequest;
 import com.example.calendarbackend.entity.EventEntity;
 import com.example.calendarbackend.exception.NotFoundException;
 import com.example.calendarbackend.repository.EventRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import javax.swing.event.InternalFrameEvent;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -48,8 +51,30 @@ public class EventService {
     {
         return eventRepository.findById(id).orElseThrow(() -> new NotFoundException("Событие не найдено"));
     }
-    public List<EventEntity> getAll()
-    {
+    public List<EventEntity> getAll() {
         return eventRepository.findAll();
+    }
+
+    public List<EventEntity> getInRangeAndParticipant(OffsetDateTime from, OffsetDateTime to, Integer userId)
+    {
+        if (from == null || to == null)
+        {
+            throw new IllegalArgumentException("Параметры from и to обязательны");
+        }
+        if (!from.isBefore(to))
+        {
+            throw new IllegalArgumentException("Параметр from должен быть раньше чем параметр to");
+        }
+        return eventRepository.findAllInRangeAndParticipant(from, to, userId);
+    }
+
+    @Transactional
+    public int deleteAllEndBefore(OffsetDateTime cutoff)
+    {
+        if (cutoff == null)
+        {
+            throw new IllegalArgumentException("Параметр cutoff обязательно передавать");
+        }
+        return eventRepository.DeleteAllEndedBefore(cutoff);
     }
 }

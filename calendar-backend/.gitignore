@@ -1,33 +1,60 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+.DS_Store
+Thumbs.db
+desktop.ini
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+
+.idea/
+.vscode/
 *.iml
 *.ipr
+*.iws
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+
+
+/calendar-backend/target/
+
+
+/calendar-backend/.env
+/calendar-backend/.env.*
+/calendar-backend/src/main/resources/application-local.properties
+/calendar-backend/src/main/resources/application-dev.properties
+/calendar-backend/src/main/resources/application-prod.properties
+
+
+/calendar-client/.dart_tool/
+/calendar-client/.flutter-plugins-dependencies
+/calendar-client/.pub/
+/calendar-client/.pub-cache/
+/calendar-client/build/
+/calendar-client/coverage/
+
+
+/calendar-client/android/.gradle/
+/calendar-client/android/.kotlin/
+/calendar-client/android/local.properties
+/calendar-client/android/app/debug/
+/calendar-client/android/app/profile/
+/calendar-client/android/app/release
+/calendar-client/android/captures/
+/calendar-client/android/.cxx/
+
+
+/calendar-client/**/Flutter/.last_build_id
+
+/calendar-client/android/key.properties
+**/*.jks
+**/*.keystore
+**/google-services.json
+**/GoogleService-Info.plist
+
+
+/Flutter file/
+
+# /Calendar.sql

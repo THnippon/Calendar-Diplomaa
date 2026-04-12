@@ -29,5 +29,6 @@ calendar-client.zip
 *.env
 application-local.properties
 application-local.yml
+/calendar-backend/src/main/resources/application.properties
 
 Flutter file

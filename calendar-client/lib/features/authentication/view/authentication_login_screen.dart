@@ -1,0 +1,70 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/features/authentication/bloc/authentication_bloc.dart';
+import 'package:flutter_application_1/features/authentication/bloc/authentication_event.dart';
+import 'package:flutter_application_1/features/authentication/widgets/authentication_background.dart';
+import 'package:flutter_application_1/features/authentication/widgets/authentication_login_form.dart';
+import 'package:flutter_application_1/features/authentication/widgets/authentication_register_form.dart';
+import 'package:flutter_application_1/router/app_rout_paths.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+class AuthenticationLoginScreen extends StatelessWidget
+{
+  const AuthenticationLoginScreen ({
+    super.key
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AuthenticationBackground(
+
+        header: Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.16),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: const Icon(
+          Icons.login_rounded,
+          color: Colors.white,
+          size: 38,
+        ),
+      ),
+      const SizedBox(height: 24),
+      const Text(
+        'Добро пожаловать',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      const SizedBox(height: 8),
+      const Text(
+        'Войдите в свой аккаунт',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white70,
+          fontSize: 16,
+          height: 1.4,
+        ),
+      ),
+      const SizedBox(height: 8,)
+    ],
+  ),
+        body: AuthenticationLoginForm(
+          onLoginPressed: (request) {
+          context.read<AuthenticationBloc>().add(
+            AuthenticationLogin(request: request),
+          );
+        },
+          onRegisterPressed: () {context.push(AppRoutePaths.register);},
+        ),
+        );
+  }
+}
