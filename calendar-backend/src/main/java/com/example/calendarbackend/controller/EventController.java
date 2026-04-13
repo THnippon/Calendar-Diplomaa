@@ -4,8 +4,10 @@ import com.example.calendarbackend.dto.CreateEventRequest;
 import com.example.calendarbackend.dto.CreateEventResponse;
 import com.example.calendarbackend.dto.EventResponse;
 import com.example.calendarbackend.entity.EventEntity;
+import com.example.calendarbackend.entity.UserEntity;
 import com.example.calendarbackend.model.Event;
 import com.example.calendarbackend.service.EventService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,9 +57,9 @@ public class EventController {
     }
 
     @GetMapping
-    public List<EventResponse> getAllInRangeAndParticipant(@RequestParam OffsetDateTime from, @RequestParam OffsetDateTime to, @RequestParam Integer userId)
+    public List<EventResponse> getAllInRangeAndParticipant(@RequestParam OffsetDateTime from, @RequestParam OffsetDateTime to, @AuthenticationPrincipal UserEntity user)
     {
-        return eventService.getInRangeAndParticipant(from, to, userId).stream().map(this::toResponse).toList();
+        return eventService.getInRangeAndParticipant(from, to, user.getId()).stream().map(this::toResponse).toList();
     }
 }
 

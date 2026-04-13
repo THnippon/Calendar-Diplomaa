@@ -95,10 +95,12 @@ class SessionRepository implements AbstractSessionRepository {
       final response = await _authenticationRepository.refresh(RefreshRequest(refreshToken: refreshToken));
 
       await _tokenStorage.writeRefreshToket(response.refreshToken);
-
-      return _mapLoginResponseToAuthSession(response);
+      final session = _mapLoginResponseToAuthSession(response);
+      _sessionStore.setSession(session);
+      return session;
     } catch (_){
       await _tokenStorage.deleteRefreshToken();
+      _sessionStore.clear();
       return null;
     }
   }

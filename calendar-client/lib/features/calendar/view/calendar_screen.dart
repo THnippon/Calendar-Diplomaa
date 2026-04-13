@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/calendar/widgets/calendar_card.dart';
 import 'package:flutter_application_1/features/calendar/bloc/bloc.dart';
+import 'package:flutter_application_1/features/session/cubit/session_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -17,6 +18,12 @@ class CalendarScreen extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.search),
           ),
+          IconButton(
+  onPressed: () {
+    context.read<SessionCubit>().signOut();
+  },
+  icon: const Icon(Icons.logout),
+)
         ],
       ),
       body: BlocBuilder<CalendarBloc, CalendarState>(

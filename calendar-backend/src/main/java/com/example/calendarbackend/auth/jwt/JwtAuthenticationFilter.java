@@ -48,14 +48,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        Integer userId;
+        int userId;
         try{
             String subject = jwtService.extractSubject(jwt);
             if (subject == null || subject.isBlank()) {
                 filterChain.doFilter(request, response);
                 return;
             }
-            userId = Integer.valueOf(subject);
+            userId = Integer.parseInt(subject);
         } catch (JwtException | IllegalArgumentException ex){
             filterChain.doFilter(request, response);
             return;

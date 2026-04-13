@@ -41,5 +41,6 @@ void setupDependencies()
     authenticationRepository: sl<AbstractAuthenticationRepository>(),
     tokenStorage: sl<AbstractTokenStorage>(),
     launchFlagsStorage: sl<AbstractLaunchFlagsStorage>(),
+    sessionStore: sl<AbstractAuthSessionStore>(),
   ));
 }
