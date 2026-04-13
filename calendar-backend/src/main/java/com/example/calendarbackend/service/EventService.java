@@ -2,6 +2,7 @@ package com.example.calendarbackend.service;
 
 import com.example.calendarbackend.dto.CreateEventRequest;
 import com.example.calendarbackend.entity.EventEntity;
+import com.example.calendarbackend.entity.UserEntity;
 import com.example.calendarbackend.exception.NotFoundException;
 import com.example.calendarbackend.repository.EventRepository;
 import jakarta.transaction.Transactional;
@@ -19,10 +20,10 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public EventEntity create(CreateEventRequest request)
+    public EventEntity create(CreateEventRequest request, Integer userId)
     {
         validate(request);
-        EventEntity e = new EventEntity(request.getTitle(), request.getStartAt(), request.getEndAt(), 1, request.getScopeCode(), request.getGroupId()); //Поменять createdBy
+        EventEntity e = new EventEntity(request.getTitle(), request.getStartAt(), request.getEndAt(), userId, request.getScopeCode(), request.getGroupId()); //Поменять createdBy
         eventRepository.save(e);
         return e;
     }

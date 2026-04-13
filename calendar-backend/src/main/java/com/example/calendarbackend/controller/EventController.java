@@ -5,6 +5,7 @@ import com.example.calendarbackend.dto.CreateEventResponse;
 import com.example.calendarbackend.dto.EventResponse;
 import com.example.calendarbackend.entity.EventEntity;
 import com.example.calendarbackend.entity.UserEntity;
+import com.example.calendarbackend.mapper.EventMapper;
 import com.example.calendarbackend.model.Event;
 import com.example.calendarbackend.service.EventService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,48 +19,32 @@ import java.util.List;
 @RequestMapping ("/events")
 public class EventController {
     private final EventService eventService;
+    private final EventMapper eventMapper;
 
-    public EventController(EventService eventService)
+    public EventController(EventService eventService, EventMapper eventMapper)
     {
         this.eventService = eventService;
+        this.eventMapper = eventMapper;
     }
 
-    private EventResponse toResponse(EventEntity e)
-    {
-        return new EventResponse(
-                e.getId(),
-                e.getTitle(),
-                e.getDescription(),
-                e.getStartAt(),
-                e.getEndAt(),
-                e.getAddress(),
-                e.getCreatedBy(),
-                e.getScopeCode(),
-                e.getGroupId());
-    }
 
     @PostMapping
-    public CreateEventResponse create(@RequestBody CreateEventRequest request)
+    public CreateEventResponse create(@RequestBody CreateEventRequest request, @AuthenticationPrincipal UserEntity user)
     {
-        EventEntity saved = eventService.create(request);
+        EventEntity saved = eventService.create(request, user.getId());
         return new CreateEventResponse(saved.getId());
     }
     @GetMapping ("/{id}")
     public EventResponse getById(@PathVariable Integer id)
     {
         EventEntity e = eventService.getById(id);
-        return new EventResponse(e.getId(), e.getTitle(), e.getDescription(), e.getStartAt(), e.getEndAt(), e.getAddress(), e.getCreatedBy(), e.getScopeCode(), e.getGroupId());
-    }
-    @GetMapping ("/All")
-    public List<EventResponse> getAll()
-    {
-        return eventService.getAll().stream().map(e -> new EventResponse(e.getId(), e.getTitle(), e.getDescription(), e.getStartAt(), e.getEndAt(), e.getAddress(), e.getCreatedBy(), e.getScopeCode(), e.getGroupId())).toList();
+        return eventMapper.toResponse(e);
     }
 
     @GetMapping
     public List<EventResponse> getAllInRangeAndParticipant(@RequestParam OffsetDateTime from, @RequestParam OffsetDateTime to, @AuthenticationPrincipal UserEntity user)
     {
-        return eventService.getInRangeAndParticipant(from, to, user.getId()).stream().map(this::toResponse).toList();
+        return eventService.getInRangeAndParticipant(from, to, user.getId()).stream().map(eventMapper::toResponse).toList();
     }
 }
 

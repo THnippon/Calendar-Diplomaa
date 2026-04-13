@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_application_1/core/services/image_picker_service.dart';
 import 'package:flutter_application_1/core/session/abstract_auth_session_store.dart';
 import 'package:flutter_application_1/core/session/abstract_session_refresher.dart';
 import 'package:flutter_application_1/core/session/auth_session_store.dart';
@@ -23,6 +24,7 @@ void setupDependencies()
   sl.registerLazySingleton<AbstractAuthSessionStore>(() => AuthSessionStore());
   sl.registerLazySingleton<AbstractTokenStorage>(() => TokenStorage());
   sl.registerLazySingleton<AbstractLaunchFlagsStorage>(() => LaunchFlagsStorage());
+  sl.registerLazySingleton<ImagePickerService>(() => ImagePickerService());
   
   //dio
   sl.registerLazySingleton<Dio>(() => createMainDio(), instanceName: 'mainDio');
