@@ -3,12 +3,15 @@ package com.example.calendarbackend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Entity
 @Table(name="events")
 @Getter
+@SQLRestriction("deleted_at IS NULL")
 public class EventEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_id_generator")
@@ -40,6 +43,13 @@ public class EventEntity {
     @Setter
     @Column(name = "address")
     private String address;
+
+    @Column(name = "deleted_at", insertable = false)
+    private OffsetDateTime deletedAt;
+
+    public void archive() {
+        this.deletedAt = OffsetDateTime.now(ZoneOffset.UTC);
+    }
 
 
     protected EventEntity() {}

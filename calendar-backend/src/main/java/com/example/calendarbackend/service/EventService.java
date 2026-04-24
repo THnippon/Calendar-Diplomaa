@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.event.InternalFrameEvent;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -70,12 +71,13 @@ public class EventService {
     }
 
     @Transactional
-    public int deleteAllEndBefore(OffsetDateTime cutoff)
+    public int archiveAllEndBefore(OffsetDateTime cutoff)
     {
         if (cutoff == null)
         {
             throw new IllegalArgumentException("Параметр cutoff обязательно передавать");
         }
-        return eventRepository.DeleteAllEndedBefore(cutoff);
+        OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+        return eventRepository.archiveAllEndedBefore(cutoff, now);
     }
 }

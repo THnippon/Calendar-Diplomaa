@@ -26,8 +26,10 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer> {
 
     @Modifying
     @Query("""
-        delete from EventEntity e
-                where e.endAt < :cutoff
+            update EventEntity e
+            set e.deletedAt = :archivedAt
+            where e.endAt < :cutoff
+            and e.deletedAt is null
                """)
-    int DeleteAllEndedBefore(@Param("cutoff") OffsetDateTime cutoff);
+    int archiveAllEndedBefore(@Param("cutoff") OffsetDateTime cutoff, @Param("archivedAt") OffsetDateTime archivedAt);
 }

@@ -35,9 +35,16 @@ public class AuthService {
         UserEntity savedUser = userRepository.save(user);
         String accessToken = jwtService.generateAccessToken(savedUser);
         String refreshToken = refreshTokenService.issueRefreshToken(savedUser);
-        return new LoginResponse(accessToken, "Bearer", refreshToken, new LoginAuthDto(savedUser.getId(), savedUser.getEmail(), savedUser.getNickname()));
-
-
+        return new LoginResponse(
+                accessToken,
+                "Bearer",
+                refreshToken,
+                new LoginAuthDto(
+                        savedUser.getId(),
+                        savedUser.getEmail(),
+                        savedUser.getNickname()
+                )
+        );
     }
 
 
@@ -46,15 +53,27 @@ public class AuthService {
     {
         String email = request.getEmail().trim().toLowerCase();
         String password = request.getPassword();
-        UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Неверный email или пароль"));
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException(
+                "Неверный email или пароль"
+                )
+        );
         if (!passwordEncoder.matches(password, user.getPasswordHash()))
         {
             throw new IllegalArgumentException("Неверный email или пароль");
         }
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = refreshTokenService.issueRefreshToken(user);
-        return new LoginResponse(accessToken, "Bearer", refreshToken, new LoginAuthDto(user.getId(), user.getEmail(), user.getNickname()));
+        return new LoginResponse(
+                accessToken,
+                "Bearer",
+                refreshToken,
+                new LoginAuthDto(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getNickname()));
     }
+
+    
     @Transactional
     public void logout(String rawToken)
     {

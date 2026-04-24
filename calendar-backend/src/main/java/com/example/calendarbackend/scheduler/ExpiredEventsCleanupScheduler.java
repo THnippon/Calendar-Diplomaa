@@ -20,6 +20,6 @@ public class ExpiredEventsCleanupScheduler {
     @Scheduled(cron = "0 0 * * * *")
     public void deleteExpiredEvents()
     {
-        eventService.deleteAllEndBefore(OffsetDateTime.now(ZoneOffset.UTC));
+        eventService.archiveAllEndBefore(OffsetDateTime.now(ZoneOffset.UTC));
     }
 }

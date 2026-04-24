@@ -7,13 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ProfileCubit extends Cubit<ProfileState>{
   ProfileCubit ({
     required AbstractAuthSessionStore sessionStore,
-    required ImagePickerService imagePicker,
   }) : _sessionStore = sessionStore,
-  _imagePicker = imagePicker,
+
   super(const ProfileState());
 
   final AbstractAuthSessionStore _sessionStore;
-  final ImagePickerService _imagePicker;
+
 
   void loadProfile() {
     emit(state.copyWith(errorMessage: null, status: ProfileStatus.loading));
