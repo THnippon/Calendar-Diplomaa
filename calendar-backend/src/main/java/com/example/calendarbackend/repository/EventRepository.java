@@ -22,7 +22,10 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer> {
                 )
         order by e.startAt asc
                """)
-    List<EventEntity> findAllInRangeAndParticipant(@Param("rangeStart") OffsetDateTime from, @Param("rangeEnd") OffsetDateTime to, @Param("userId") Integer userId);
+    List<EventEntity> findAllInRangeAndParticipant(
+            @Param("rangeStart") OffsetDateTime from,
+            @Param("rangeEnd") OffsetDateTime to,
+            @Param("userId") Integer userId);
 
     @Modifying
     @Query("""
@@ -31,5 +34,8 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer> {
             where e.endAt < :cutoff
             and e.deletedAt is null
                """)
-    int archiveAllEndedBefore(@Param("cutoff") OffsetDateTime cutoff, @Param("archivedAt") OffsetDateTime archivedAt);
+    int archiveAllEndedBefore(
+            @Param("cutoff") OffsetDateTime cutoff,
+            @Param("archivedAt") OffsetDateTime archivedAt);
 }
+

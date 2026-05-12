@@ -31,8 +31,16 @@ void setupDependencies()
   sl.registerLazySingleton<Dio>(() => createAuthDio(), instanceName: 'authDio');
 
   //repository
-  sl.registerLazySingleton<AbstractEventsRepository>(() => EventsRepository(dio: sl<Dio>(instanceName: 'mainDio')));
-  sl.registerLazySingleton<AbstractAuthenticationRepository>(() => AuthenticationRepository(dio: sl<Dio>(instanceName: 'authDio')));
+  sl.registerLazySingleton<AbstractEventsRepository>(
+    () => EventsRepository(
+      dio: sl<Dio>(instanceName: 'mainDio')
+    )
+  );
+  sl.registerLazySingleton<AbstractAuthenticationRepository>(
+    () => AuthenticationRepository(
+      dio: sl<Dio>(instanceName: 'authDio')
+    )
+  );
 
   //session
   sl.registerLazySingleton<AbstractSessionRefresher>(() => SessionRefreshser(

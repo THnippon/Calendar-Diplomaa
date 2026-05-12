@@ -23,3 +23,5 @@ public class ExpiredEventsCleanupScheduler {
         eventService.archiveAllEndBefore(OffsetDateTime.now(ZoneOffset.UTC));
     }
 }
+
+

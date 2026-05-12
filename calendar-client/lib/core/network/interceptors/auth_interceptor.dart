@@ -40,6 +40,8 @@ class AuthInterceptor extends QueuedInterceptor {
     handler.next(options);
   }
 
+
+
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (!_shouldTryRefresh(err))
@@ -56,7 +58,9 @@ class AuthInterceptor extends QueuedInterceptor {
         return;
       }
 
-      final response = await _retryRequest(requestOptions: err.requestOptions, accessToken: refreshedSession.accessToken);
+      final response = await _retryRequest(
+        requestOptions: err.requestOptions, accessToken: refreshedSession.accessToken
+        );
 
       handler.resolve(response);
     } on DioException catch (retryError){
